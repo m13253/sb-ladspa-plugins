@@ -10,13 +10,13 @@ Installation
 git clone git://github.com/m13253/sb-ladspa-plugins.git
 cd src
 make
-sudo cp *.so /usr/local/lib/ladspa/
+sudo install *.so /usr/local/lib/ladspa/
 ```
 Alternatively you can install these plugins to `/usr/lib/ladspa`.
 
 You can also install them to `$HOME/.ladspa`, or install them to another
-directory then set environment variable `$LADSPA` to that directory, if you do
-not have root permission.
+directory and then set environment variable `$LADSPA` to that directory, if you
+do not have root permission.
 
 ## Extrastereo
 
