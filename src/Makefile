@@ -7,7 +7,7 @@ override CFLAGS+=-Wall -O3
 
 all: sb_extrastereo.so
 
-.c.so:
+%.so: %.c
 	$(CC) -fPIC -shared $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
