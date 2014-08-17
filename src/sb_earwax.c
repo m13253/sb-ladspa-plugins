@@ -134,7 +134,7 @@ const char *desc_port_names[] = {
     "Input (Left)", "Input (Right)", "Output (Left)", "Output (Right)"
 };
 const LADSPA_PortRangeHint desc_port_range_hints[] = {
-    {.HintDescriptor = LADSPA_HINT_BOUNDED_BELOW | LADSPA_HINT_BOUNDED_ABOVE | LADSPA_HINT_DEFAULT_LOW, .LowerBound = 0, .UpperBound = 50},
+    {.HintDescriptor = LADSPA_HINT_BOUNDED_BELOW | LADSPA_HINT_DEFAULT_LOW, .LowerBound = 0, .UpperBound = 20},
     {.HintDescriptor = LADSPA_HINT_BOUNDED_BELOW | LADSPA_HINT_BOUNDED_ABOVE | LADSPA_HINT_DEFAULT_HIGH, .LowerBound = -90, .UpperBound = 90},
     {.HintDescriptor = LADSPA_HINT_BOUNDED_BELOW | LADSPA_HINT_BOUNDED_ABOVE | LADSPA_HINT_DEFAULT_MAXIMUM, .LowerBound = 0, .UpperBound = 1},
     {.HintDescriptor = 0},
