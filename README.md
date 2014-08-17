@@ -10,7 +10,7 @@ Installation
 git clone git://github.com/m13253/sb-ladspa-plugins.git
 cd src
 make
-sudo install LADSPADIR=/usr/local/lib/ladspa
+sudo make install LADSPADIR=/usr/local/lib/ladspa
 ```
 Alternatively you can install these plugins to `/usr/lib/ladspa`.
 
