@@ -76,4 +76,4 @@ Some other things
 
 I have not yet requested a LADSPA UniqueID. If you have another plugin with the
 same LADSPA UniqueID bad things may happen. I will request one as soon as I
-finished debugging and testing.
+finish debugging and testing.
