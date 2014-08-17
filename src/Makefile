@@ -1,7 +1,7 @@
 
 DESTDIR=
 PREFIX=$(DESTDIR)/usr/local
-LADSPADIR=$(PREFIX)/ladspa
+LADSPADIR=$(PREFIX)/lib/ladspa
 
 CC=gcc
 RM=rm -f
