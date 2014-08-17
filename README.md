@@ -28,6 +28,9 @@ Inspired by an MPlayer filter.
 Technically, this filter sets `L=avg+factor*(L-avg); R=avg+factor*(R-avg)`,
 where `avg=(L+R)/2`.
 
+Note that extreme parameters may cause loud volume. It may be useful to insert
+a gain filter to lower the volume before extrastereo.
+
 **Factor:** Sets the difference coefficient (default: 2.5). 0 means mono sound
 (average of both channels), with 1 sound will be unchanged, with -1 left and
 right channels will be swapped.
@@ -43,8 +46,8 @@ your head to somewhere far away in front of you.
 
 Inspired by a SoX filter, but this filter does better than that one.
 
-Note that this may make audio worse if the original audio is not recorded for
-loudspeakers, or you are not using a binaural headphone.
+Note that this filter may make audio worse if the original audio is not recorded
+for loudspeakers, or you are not using a binaural headphone.
 
 Technically, this filter emulates two virtual loudspeakers and calculates the
 distances between your ears and the loudspeakers. A weaker sound with a slight
