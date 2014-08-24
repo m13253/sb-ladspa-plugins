@@ -31,6 +31,7 @@ typedef struct {
 } earwax_t;
 
 void activate(LADSPA_Handle Instance);
+void reactivate(LADSPA_Handle Instance);
 
 LADSPA_Handle instantiate(const LADSPA_Descriptor *Descriptor, unsigned long SampleRate) {
     earwax_t *Instance = malloc(sizeof (earwax_t));
@@ -51,6 +52,11 @@ void connect_port(LADSPA_Handle Instance, unsigned long Port, LADSPA_Data *DataL
 }
 
 void activate(LADSPA_Handle Instance) {
+    if(!conv_earwax(Instance)->activated)
+        reactivate(Instance);
+}
+
+void reactivate(LADSPA_Handle Instance) {
     double distance = *conv_earwax(Instance)->port[PORT_DISTANCE];
     double angle = *conv_earwax(Instance)->port[PORT_ANGLE]*(M_PI/180);
     conv_earwax(Instance)->far = hypot(distance*sin(angle)+BINAURAL_DISTANCE, distance*cos(angle));
@@ -83,7 +89,7 @@ void activate(LADSPA_Handle Instance) {
 
 void run(LADSPA_Handle Instance, unsigned long SampleCount) {
     long i;
-    for(i = SampleCount; i >= conv_earwax(Instance)->delay; i--) {
+    for(i = SampleCount-1; i >= conv_earwax(Instance)->delay; i--) {
         conv_earwax(Instance)->port[PORT_OUTL][i] = conv_earwax(Instance)->port[PORT_INL][i]*conv_earwax(Instance)->drygain+conv_earwax(Instance)->port[PORT_INR][i-conv_earwax(Instance)->delay]*conv_earwax(Instance)->wetgain;
         conv_earwax(Instance)->port[PORT_OUTR][i] = conv_earwax(Instance)->port[PORT_INR][i]*conv_earwax(Instance)->drygain+conv_earwax(Instance)->port[PORT_INL][i-conv_earwax(Instance)->delay]*conv_earwax(Instance)->wetgain;
     }
@@ -93,7 +99,7 @@ void run(LADSPA_Handle Instance, unsigned long SampleCount) {
     }
     if(SampleCount >= conv_earwax(Instance)->delay) {
         memcpy(conv_earwax(Instance)->buffer[BUFFER_L], conv_earwax(Instance)->port[PORT_INL]+(SampleCount-conv_earwax(Instance)->delay), conv_earwax(Instance)->delay*sizeof (LADSPA_Data));
-        memcpy(conv_earwax(Instance)->buffer[BUFFER_R], conv_earwax(Instance)->port[PORT_INL]+(SampleCount-conv_earwax(Instance)->delay), conv_earwax(Instance)->delay*sizeof (LADSPA_Data));
+        memcpy(conv_earwax(Instance)->buffer[BUFFER_R], conv_earwax(Instance)->port[PORT_INR]+(SampleCount-conv_earwax(Instance)->delay), conv_earwax(Instance)->delay*sizeof (LADSPA_Data));
     } else {
         memmove(conv_earwax(Instance)->buffer[BUFFER_L], conv_earwax(Instance)->buffer[BUFFER_L]+SampleCount, (conv_earwax(Instance)->delay-SampleCount)*sizeof (LADSPA_Data));
         memmove(conv_earwax(Instance)->buffer[BUFFER_R], conv_earwax(Instance)->buffer[BUFFER_R]+SampleCount, (conv_earwax(Instance)->delay-SampleCount)*sizeof (LADSPA_Data));
