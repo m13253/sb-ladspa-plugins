@@ -1,5 +1,4 @@
 #include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "ladspa.h"
@@ -88,12 +87,13 @@ void reactivate(LADSPA_Handle Instance) {
 }
 
 void run(LADSPA_Handle Instance, unsigned long SampleCount) {
-    long i;
-    for(i = SampleCount-1; i >= conv_earwax(Instance)->delay; i--) {
+    unsigned long i = SampleCount;
+    while(i > conv_earwax(Instance)->delay) {
+        i--;
         conv_earwax(Instance)->port[PORT_OUTL][i] = conv_earwax(Instance)->port[PORT_INL][i]*conv_earwax(Instance)->drygain+conv_earwax(Instance)->port[PORT_INR][i-conv_earwax(Instance)->delay]*conv_earwax(Instance)->wetgain;
         conv_earwax(Instance)->port[PORT_OUTR][i] = conv_earwax(Instance)->port[PORT_INR][i]*conv_earwax(Instance)->drygain+conv_earwax(Instance)->port[PORT_INL][i-conv_earwax(Instance)->delay]*conv_earwax(Instance)->wetgain;
     }
-    for(; i >= 0; i--) {
+    while(i--) {
         conv_earwax(Instance)->port[PORT_OUTL][i] = conv_earwax(Instance)->port[PORT_INL][i]*conv_earwax(Instance)->drygain+conv_earwax(Instance)->buffer[BUFFER_R][i]*conv_earwax(Instance)->wetgain;
         conv_earwax(Instance)->port[PORT_OUTR][i] = conv_earwax(Instance)->port[PORT_INR][i]*conv_earwax(Instance)->drygain+conv_earwax(Instance)->buffer[BUFFER_L][i]*conv_earwax(Instance)->wetgain;
     }
